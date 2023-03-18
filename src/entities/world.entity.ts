@@ -125,6 +125,10 @@ export class WorldEntity extends RectEntity<Props> {
   }
 
   setInitPattern(pattern: CellIndex[], isClear = false) {
+    // reset camera to center
+    this.renderer.simpleCamera.x = 0;
+    this.renderer.simpleCamera.y = 0;
+
     this.drawingCells = [];
     const newLiveCells = this.gridControl.setPattern(pattern, true);
     this.drawingCells.push(...newLiveCells);
