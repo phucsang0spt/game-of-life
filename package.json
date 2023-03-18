@@ -1,5 +1,6 @@
 {
   "name": "game-of-life",
+  "homepage": "/game-of-life",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
@@ -33,6 +34,7 @@
   "scripts": {
     "start": "PORT=4444 react-scripts start",
     "build": "react-scripts build",
+    "build:realm": "yarn build && rm -rf ../phucsang0spt.github.io/game-of-life/* && cp -R ./build/* ../phucsang0spt.github.io/game-of-life/",
     "build:apk": "cordova-res android --skip-config --copy && ionic capacitor copy android && cd android && ./gradlew assembleDebug && cd ..",
     "build:android": "yarn run build && ionic capacitor copy android",
     "ios": "ionic capacitor copy ios && ionic capacitor run ios -l --external -livereload",
