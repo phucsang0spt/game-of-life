@@ -105,7 +105,7 @@ export function MainUI() {
   const refPlayBtn = useRef<HTMLElement>(null);
   const [world] = useEntity(WorldEntity);
   const refPrompt = useRef<HTMLTextAreaElement>(null);
-  const [showPrompt, setShowPrompt] = useState(true);
+  const [showPrompt, setShowPrompt] = useState(false);
 
   const spawnStateGuard = ({
     onDown,
