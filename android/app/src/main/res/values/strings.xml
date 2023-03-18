@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Game Of Life</string>
+    <string name="title_activity_main">Game Of Life</string>
+    <string name="package_name">com.spt.hc.game.of.life</string>
+    <string name="custom_url_scheme">com.spt.hc.game.of.life</string>
+</resources>

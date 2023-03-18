@@ -1,0 +1,6 @@
+{
+  "appId": "com.spt.hc.game.of.life",
+  "appName": "Game Of Life",
+  "webDir": "build",
+  "bundledWebRuntime": false
+}

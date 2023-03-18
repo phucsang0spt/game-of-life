@@ -1,0 +1,67 @@
+{
+  "name": "game-of-life",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "@capacitor/android": "4.0.1",
+    "@capacitor/app": "4.0.1",
+    "@capacitor/browser": "^4.1.0",
+    "@capacitor/core": "4.0.1",
+    "@capacitor/filesystem": "^4.1.4",
+    "@capacitor/haptics": "4.0.1",
+    "@capacitor/ios": "4.0.1",
+    "@capacitor/keyboard": "4.0.1",
+    "@capacitor/status-bar": "^4.1.1",
+    "@ionic/react": "^6.3.8",
+    "@ionic/storage": "^3.0.6",
+    "@react-icons/all-files": "^4.1.0",
+    "@types/node": "^12.19.15",
+    "@types/react": "^16.14.3",
+    "@types/react-dom": "^16.9.10",
+    "capacitor-native-settings": "^4.0.3",
+    "js-rle": "^0.0.4",
+    "localforage-cordovasqlitedriver": "^1.8.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "^5.0.0",
+    "react-simple-game-engine": "^0.3.25",
+    "react-square-div": "^1.0.4",
+    "spinners-react": "^1.0.7",
+    "styled-components": "^5.3.5",
+    "typescript": "^4.1.3"
+  },
+  "scripts": {
+    "start": "PORT=4444 react-scripts start",
+    "build": "react-scripts build",
+    "build:apk": "cordova-res android --skip-config --copy && ionic capacitor copy android && cd android && ./gradlew assembleDebug && cd ..",
+    "build:android": "yarn run build && ionic capacitor copy android",
+    "ios": "ionic capacitor copy ios && ionic capacitor run ios -l --external -livereload",
+    "android": "ionic capacitor copy android && ionic capacitor run android -l --external -livereload",
+    "setup-res:ios": "cordova-res ios --skip-config --copy",
+    "setup-res:android": "cordova-res android --skip-config --copy"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@capacitor/cli": "4.0.1",
+    "@types/styled-components": "^5.1.26",
+    "cordova-res": "^0.15.4"
+  },
+  "description": "An Ionic project"
+}
