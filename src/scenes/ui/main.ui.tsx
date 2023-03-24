@@ -20,6 +20,9 @@ import { WorldEntity } from "entities/world.entity";
 
 import { toCorrectPixel } from "px";
 
+const iconSize = toCorrectPixel(30, true);
+const distance = toCorrectPixel(30);
+
 const Root = styled.div`
   position: relative;
   width: 100%;
@@ -33,15 +36,6 @@ const Root = styled.div`
 const Info = styled.p`
   font-size: ${toCorrectPixel(18)}px;
   line-height: ${toCorrectPixel(18)}px;
-`;
-
-const InfoWithIcon = styled.div`
-  display: flex;
-  align-items: center;
-
-  svg {
-    margin-left: ${toCorrectPixel(10)}px;
-  }
 `;
 
 const PatternPrompt = styled.div`
@@ -102,6 +96,37 @@ O.O........
 ....O......
 `;
 
+const ZoomInfo = styled.div`
+  width: ${iconSize}px;
+  height: ${iconSize}px;
+  position: relative;
+
+  > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      position: absolute;
+      top: calc(50% + 2px);
+      right: 10px;
+
+      opacity: 0;
+      transform: translate(-100%, -50%);
+      transition: opacity 200ms ease-in-out;
+
+      &[data-visibility="true"] {
+        opacity: 1;
+      }
+    }
+  }
+`;
+
 export function MainUI() {
   const refPlayBtn = useRef<HTMLElement>(null);
   const [world] = useEntity(WorldEntity);
@@ -139,9 +164,6 @@ export function MainUI() {
     setShowPrompt(false);
   };
 
-  const iconSize = toCorrectPixel(30, true);
-  const distance = toCorrectPixel(30);
-  const subDistance = toCorrectPixel(10);
   return (
     <Root>
       <Control bottom={60} right={10}>
@@ -188,7 +210,35 @@ export function MainUI() {
                   })}
                 />
               </Control>
-              <Control top={subDistance}>
+              <Control top={10}>
+                <ZoomInfo>
+                  <div>
+                    <Watcher
+                      names="zoom"
+                      initialValues={{
+                        zoom: world.zoomValue,
+                      }}
+                    >
+                      {({ zoom }) => {
+                        const value = +zoom.toFixed(1);
+                        return (
+                          <>
+                            <MdRefresh
+                              onClick={() => world.resetZoom()}
+                              aria-label={zoom.toString()}
+                              data-visibility={value > 1 || value < 1}
+                              size={iconSize / 1.2}
+                              {...spawnStateGuard()}
+                            />
+                            <Info>x{value}</Info>
+                          </>
+                        );
+                      }}
+                    </Watcher>
+                  </div>
+                </ZoomInfo>
+              </Control>
+              <Control top={10}>
                 <FiZoomOut
                   size={iconSize}
                   {...spawnStateGuard({
@@ -237,31 +287,6 @@ export function MainUI() {
               }}
             >
               {({ liveCellCount }) => <Info>Live cells: {liveCellCount}</Info>}
-            </Watcher>
-          </Control>
-          <Control top={10}>
-            <Watcher
-              names="zoom"
-              initialValues={{
-                zoom: world.zoomValue,
-              }}
-            >
-              {({ zoom }) => {
-                const value = +zoom.toFixed(1);
-                return (
-                  <InfoWithIcon>
-                    <Info>Zoom x {value}</Info>
-                    {(value > 1 || value < 1) && (
-                      <MdRefresh
-                        onClick={() => world.resetZoom()}
-                        aria-label={zoom.toString()}
-                        size={iconSize / 2}
-                        {...spawnStateGuard()}
-                      />
-                    )}
-                  </InfoWithIcon>
-                );
-              }}
             </Watcher>
           </Control>
         </ControlContainer>
