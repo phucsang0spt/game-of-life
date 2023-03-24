@@ -23,6 +23,7 @@
     "js-rle": "^0.0.4",
     "localforage-cordovasqlitedriver": "^1.8.0",
     "react": "^17.0.1",
+    "react-color": "^2.19.3",
     "react-dom": "^17.0.1",
     "react-scripts": "^5.0.0",
     "react-simple-game-engine": "^0.3.36",
@@ -62,6 +63,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "4.0.1",
+    "@types/react-color": "^3.0.6",
     "@types/styled-components": "^5.1.26",
     "cordova-res": "^0.15.4"
   },

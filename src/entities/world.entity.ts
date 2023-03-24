@@ -35,6 +35,7 @@ export class WorldEntity extends RectEntity<Props> {
     bottom: number;
   };
   public canSpawn = true;
+  public liveCellColor = [51, 153, 204];
 
   protected onPrepare(): EntityPrepare<this> {
     this.gridControl = this.props.gridControl;
@@ -310,6 +311,7 @@ export class WorldEntity extends RectEntity<Props> {
   }
 
   onDraw() {
+    const [r, g, b] = this.liveCellColor;
     this.renderer.rectMode(Renderer.CORNER);
     this.renderer.drawHandle(this.position, () => {
       this.renderer.scale(this.gridControl.scale);
@@ -324,9 +326,9 @@ export class WorldEntity extends RectEntity<Props> {
       this.renderer.noStroke();
       for (const cell of this.drawingCells) {
         if (cell.isFresh) {
-          this.renderer.fill(52, 152, 219, 100);
+          this.renderer.fill(r, g, b, 100);
         } else {
-          this.renderer.fill(52, 152, 219);
+          this.renderer.fill(r, g, b);
         }
         this.renderer.rect(cell.left, cell.top, cell.size, cell.size);
       }

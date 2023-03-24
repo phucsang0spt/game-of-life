@@ -19,6 +19,7 @@ import { MdCheck } from "@react-icons/all-files/md/MdCheck";
 import { WorldEntity } from "entities/world.entity";
 
 import { toCorrectPixel } from "px";
+import { LiveColorPicker } from "components/cell-color-picker";
 
 const iconSize = toCorrectPixel(30, true);
 const distance = toCorrectPixel(30);
@@ -167,11 +168,22 @@ export function MainUI() {
   return (
     <Root>
       <Control bottom={60} right={10}>
-        <FiCpu
-          onClick={() => setShowPrompt(true)}
-          size={iconSize * 2}
-          {...spawnStateGuard()}
-        />
+        <ControlContainer stack>
+          <Control alignment="flex-end">
+            <LiveColorPicker
+              onSelected={(rgb) => {
+                world.liveCellColor = rgb;
+              }}
+            />
+          </Control>
+          <Control top={20}>
+            <FiCpu
+              onClick={() => setShowPrompt(true)}
+              size={iconSize * 2}
+              {...spawnStateGuard()}
+            />
+          </Control>
+        </ControlContainer>
       </Control>
       <Control top={60} right={10}>
         <ControlContainer stack>
