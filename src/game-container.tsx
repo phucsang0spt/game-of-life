@@ -1,10 +1,13 @@
 import styled from "styled-components";
 import { GameBootstrap } from "react-simple-game-engine";
+import { useWindowSize } from "react-simple-game-engine/lib/utils";
+
+import { toCorrectPixel } from "px";
 
 import { MainScene } from "scenes/main.scene";
 import { AssetLoader } from "components/asset-loader";
-import { useWindowSize } from "react-simple-game-engine/lib/utils";
-import { toCorrectPixel } from "px";
+import joystickImage from "assets/joystick.svg";
+import joystickContainerImage from "assets/circle.svg";
 
 const Root = styled.div`
   width: 100%;
@@ -23,6 +26,8 @@ export function GameContainer() {
         width: 720,
         height: 1280,
       };
+
+  const joystickSize = toCorrectPixel(100, true);
   return (
     <Root>
       <GameBootstrap
@@ -32,9 +37,9 @@ export function GameContainer() {
           bottom: 40,
           left: 40,
           props: {
-            size: toCorrectPixel(100, true),
-            baseColor: "#2980b970",
-            stickColor: "#ffffff95",
+            size: joystickSize,
+            baseImage: joystickContainerImage,
+            stickImage: joystickImage,
           },
         }}
         {...resolution}

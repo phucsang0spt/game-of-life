@@ -16,8 +16,9 @@ import { MdRefresh } from "@react-icons/all-files/md/MdRefresh";
 import { MdClear } from "@react-icons/all-files/md/MdClear";
 import { MdCheck } from "@react-icons/all-files/md/MdCheck";
 
-import { toCorrectPixel } from "px";
 import { WorldEntity } from "entities/world.entity";
+
+import { toCorrectPixel } from "px";
 
 const Root = styled.div`
   position: relative;
@@ -122,6 +123,10 @@ export function MainUI() {
       },
       onPointerUp: (event: any) => {
         event.target.releasePointerCapture(event.pointerId);
+        world.canSpawn = true;
+        onUp?.();
+      },
+      onMouseLeave: () => {
         world.canSpawn = true;
         onUp?.();
       },

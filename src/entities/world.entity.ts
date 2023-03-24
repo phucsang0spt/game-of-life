@@ -210,12 +210,6 @@ export class WorldEntity extends RectEntity<Props> {
       if (data.type === JoystickActionType.MOVE) {
         this.lastMove = data.vector.mult(0.9 * (data.length / 10));
       } else {
-        if (data.type === JoystickActionType.START) {
-          this.canSpawn = false;
-        } else {
-          // stop
-          this.canSpawn = true;
-        }
         this.lastMove = undefined;
       }
     });

@@ -18,9 +18,19 @@ export class MainScene extends Scene<{}> {
     //
   }
 
-  getInitialData() {
+  getInitialConfigs() {
+    const worldEntity = this.worldManagement.getEntity(WorldEntity);
     return {
-      joystick: true,
+      joystick: {
+        containerTouchEvent: {
+          onPressed() {
+            worldEntity.canSpawn = false;
+          },
+          onReleased() {
+            worldEntity.canSpawn = true;
+          },
+        },
+      },
     };
   }
 
