@@ -165,18 +165,11 @@ export class WorldEntity extends RectEntity<Props> {
     if (!this._isGenerating) {
       return;
     }
-    const cellsChange = this.gridControl.nextGeneration();
+    this.drawingCells = [];
+    this.gridControl.nextGeneration((liveCell) => {
+      this.drawingCells.push(liveCell);
+    });
 
-    const existDrawingCells = this.drawingCells.reduce<Record<string, Cell>>(
-      (hs, cell) => ({ ...hs, [cell.id]: cell }),
-      {}
-    );
-    for (const cell of cellsChange) {
-      if (!existDrawingCells[cell.id] && cell.isLive) {
-        this.drawingCells.push(cell);
-      }
-    }
-    this.drawingCells = this.drawingCells.filter((cell) => cell.isLive);
     this.emitGenerationCount();
     this.emitLiveCellCount();
   }

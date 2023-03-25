@@ -227,7 +227,7 @@ export class GridControl {
     return false;
   }
 
-  nextGeneration() {
+  nextGeneration(eachLiveCell: (cell: Cell) => void) {
     this._generationCount++;
     const nextGeneration: [CellIndex, boolean][] = [];
     this.cells.forEach((cells, i) => {
@@ -238,25 +238,27 @@ export class GridControl {
         }
         const neighborCount = this.getNeighborCount([j, i]);
 
-        // is dead
-        if (neighborCount < 2 || neighborCount > 3) {
-          nextGeneration.push([[j, i], false]);
+        if (cell.isLive) {
+          // is dead
+          if (neighborCount < 2 || neighborCount > 3) {
+            nextGeneration.push([[j, i], false]);
+          } else {
+            // is survival
+            eachLiveCell(cell);
+          }
         } else if (
           // is birth
-          !cell.isLive &&
           neighborCount === 3
         ) {
           nextGeneration.push([[j, i], true]);
+          eachLiveCell(cell);
         }
       });
     });
-    const cellsChange: Cell[] = [];
     for (const [[j, i], isLive] of nextGeneration) {
       const cell = this.cells[i][j];
       cell.isLive = isLive;
-      cellsChange.push(cell);
     }
-    return cellsChange;
   }
 }
 
