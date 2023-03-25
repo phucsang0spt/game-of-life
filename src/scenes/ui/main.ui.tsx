@@ -109,6 +109,7 @@ export function MainUI() {
               onSelected={(rgb) => {
                 world.liveCellColor = rgb;
               }}
+              {...spawnStateGuard()}
             />
           </Control>
           <Control top={20}>

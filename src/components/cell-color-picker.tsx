@@ -1,7 +1,7 @@
 import { toCorrectPixel } from "px";
 import styled from "styled-components";
 import { BlockPicker } from "react-color";
-import { useState } from "react";
+import { HTMLAttributes, useState } from "react";
 
 const size = toCorrectPixel(30, true);
 const colorList = [
@@ -33,15 +33,18 @@ const Root = styled.div<{
   }
 `;
 
-type LiveColorPickerProps = {
+type LiveColorPickerProps = HTMLAttributes<HTMLDivElement> & {
   onSelected?: (rgb: [number, number, number]) => void;
 };
 
-export function LiveColorPicker({ onSelected }: LiveColorPickerProps) {
+export function LiveColorPicker({
+  onSelected,
+  ...props
+}: LiveColorPickerProps) {
   const [visible, setVisible] = useState(false);
   const [color, setColor] = useState(colorList[0]);
   return (
-    <Root onClick={() => setVisible(!visible)} color={color}>
+    <Root onClick={() => setVisible(!visible)} color={color} {...props}>
       {visible && (
         <div onClick={(e) => e.stopPropagation()}>
           <BlockPicker
