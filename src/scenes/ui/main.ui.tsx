@@ -5,7 +5,7 @@ import {
   useEntity,
   Watcher,
 } from "react-simple-game-engine/lib/utilities";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 import { FiCpu } from "@react-icons/all-files/fi/FiCpu";
 import { FiPlay } from "@react-icons/all-files/fi/FiPlay";
@@ -14,12 +14,12 @@ import { FiZoomIn } from "@react-icons/all-files/fi/FiZoomIn";
 import { FiZoomOut } from "@react-icons/all-files/fi/FiZoomOut";
 import { MdRefresh } from "@react-icons/all-files/md/MdRefresh";
 import { MdClear } from "@react-icons/all-files/md/MdClear";
-import { MdCheck } from "@react-icons/all-files/md/MdCheck";
 
 import { WorldEntity } from "entities/world.entity";
 
 import { toCorrectPixel } from "px";
 import { LiveColorPicker } from "components/cell-color-picker";
+import { PatternPrompt, PatternPromptFuncs } from "components/pattern-prompt";
 
 const iconSize = toCorrectPixel(30, true);
 const distance = toCorrectPixel(30);
@@ -37,64 +37,6 @@ const Root = styled.div`
 const Info = styled.p`
   font-size: ${toCorrectPixel(18)}px;
   line-height: ${toCorrectPixel(18)}px;
-`;
-
-const PatternPrompt = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  textarea {
-    width: ${toCorrectPixel(300)}px;
-    height: ${toCorrectPixel(300)}px;
-    outline: none;
-    padding: 10px;
-    resize: none;
-    background-color: #0000004d;
-    box-shadow: 5px 5px 20px 1px #00000069;
-    border-radius: 4px;
-  }
-
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-
-    svg {
-      + svg {
-        margin-left: ${toCorrectPixel(5)}px;
-      }
-    }
-  }
-
-  footer {
-    margin-top: 5px;
-
-    font-size: ${toCorrectPixel(16)}px;
-    line-height: ${toCorrectPixel(16)}px;
-
-    p {
-      color: #a3a3a3;
-
-      a {
-        color: #39c;
-      }
-    }
-  }
-`;
-
-const PromptPlaceholder = `Paste pattern here, example:
-
-O.O........
-.OO........
-.O.........
-...........
-........OOO
-........O..
-...OOO...O.
-...O.......
-....O......
 `;
 
 const ZoomInfo = styled.div`
@@ -131,8 +73,7 @@ const ZoomInfo = styled.div`
 export function MainUI() {
   const refPlayBtn = useRef<HTMLElement>(null);
   const [world] = useEntity(WorldEntity);
-  const refPrompt = useRef<HTMLTextAreaElement>(null);
-  const [showPrompt, setShowPrompt] = useState(false);
+  const refPrompt = useRef<PatternPromptFuncs>(null);
 
   const spawnStateGuard = ({
     onDown,
@@ -159,12 +100,6 @@ export function MainUI() {
     };
   };
 
-  const handleApplyPattern = () => {
-    const text = refPrompt.current.value;
-    world.setPatternFromPrompt(text);
-    setShowPrompt(false);
-  };
-
   return (
     <Root>
       <Control bottom={60} right={10}>
@@ -178,7 +113,7 @@ export function MainUI() {
           </Control>
           <Control top={20}>
             <FiCpu
-              onClick={() => setShowPrompt(true)}
+              onClick={() => refPrompt.current.toggle()}
               size={iconSize * 2}
               {...spawnStateGuard()}
             />
@@ -303,35 +238,11 @@ export function MainUI() {
           </Control>
         </ControlContainer>
       </Control>
-      {showPrompt && (
-        <PatternPrompt {...spawnStateGuard()}>
-          <header>
-            <MdClear
-              onClick={() => setShowPrompt(false)}
-              color="#e74c3c"
-              size={iconSize}
-            />
-            <MdCheck
-              onClick={handleApplyPattern}
-              color="#3498db"
-              size={iconSize}
-            />
-          </header>
-          <textarea ref={refPrompt} placeholder={PromptPlaceholder} />
-          <footer>
-            <p>
-              List pattern{" "}
-              <a
-                rel="noreferrer"
-                target="_blank"
-                href="https://conwaylife.com/wiki/Oscillator"
-              >
-                Oscillator - LifeWiki
-              </a>
-            </p>
-          </footer>
-        </PatternPrompt>
-      )}
+      <PatternPrompt
+        ref={refPrompt}
+        {...spawnStateGuard()}
+        onApplyPattern={(text) => world.setPatternFromPrompt(text)}
+      />
     </Root>
   );
 }
