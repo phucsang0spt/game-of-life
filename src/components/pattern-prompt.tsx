@@ -58,7 +58,7 @@ const Root = styled.div`
 
       select {
         width: 100%;
-        height: ${toCorrectPixel(25)}px;
+        height: ${toCorrectPixel(25, true)}px;
         outline: none;
         text-align: center;
       }
